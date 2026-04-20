@@ -1,0 +1,71 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.apitier/mcp-server",
+  "description": "APITier utility APIs as MCP tools: validation, UK/India address lookup, barcode/QR, data conversion.",
+  "repository": {
+    "url": "https://github.com/apitier/apitier-mcp-server",
+    "source": "github"
+  },
+  "version": "1.0.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@apitier/mcp-server",
+      "version": "1.0.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "APITIER_EMAIL_KEY",
+          "description": "API key from your APITier Email Validation subscription",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "APITIER_PHONE_KEY",
+          "description": "API key from your APITier Phone Validation subscription",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "APITIER_VAT_KEY",
+          "description": "API key from your APITier VAT Validation subscription",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "APITIER_POSTCODE_KEY",
+          "description": "API key from your APITier UK Postcode subscription",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "APITIER_PINCODE_KEY",
+          "description": "API key from your APITier India Pincode subscription",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "APITIER_BARCODE_KEY",
+          "description": "API key from your APITier Barcode & QR Code subscription",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "APITIER_CONVERT_DATA_KEY",
+          "description": "API key from your APITier Data Conversion subscription",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

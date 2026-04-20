@@ -1,6 +1,7 @@
 {
   "name": "@apitier/mcp-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "mcpName": "io.github.apitier/mcp-server",
   "description": "MCP server exposing all APITier utility APIs as AI agent tools",
   "main": "dist/index.js",
   "bin": {
