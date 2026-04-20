@@ -1,0 +1,1 @@
+{"version":3,"file":"validate-email.d.ts","sourceRoot":"","sources":["../../src/tools/validate-email.ts"],"names":[],"mappings":"AAAA,OAAO,EAAc,KAAK,aAAa,EAAE,MAAM,cAAc,CAAC;AAE9D,eAAO,MAAM,iBAAiB;;;;;;;;;;;;;CAepB,CAAC;AAEX,wBAAsB,gBAAgB,CACpC,IAAI,EAAE;IAAE,KAAK,EAAE,MAAM,CAAA;CAAE,EACvB,MAAM,EAAE,aAAa,GACpB,OAAO,CAAC,MAAM,CAAC,CAOjB"}

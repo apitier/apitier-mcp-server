@@ -1,0 +1,1 @@
+{"version":3,"file":"validate-vat.d.ts","sourceRoot":"","sources":["../../src/tools/validate-vat.ts"],"names":[],"mappings":"AAAA,OAAO,EAAc,KAAK,aAAa,EAAE,MAAM,cAAc,CAAC;AAE9D,eAAO,MAAM,eAAe;;;;;;;;;;;;;CAiBlB,CAAC;AAEX,wBAAsB,cAAc,CAClC,IAAI,EAAE;IAAE,SAAS,EAAE,MAAM,CAAA;CAAE,EAC3B,MAAM,EAAE,aAAa,GACpB,OAAO,CAAC,MAAM,CAAC,CAOjB"}
