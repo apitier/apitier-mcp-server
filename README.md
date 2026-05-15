@@ -4,14 +4,29 @@ MCP (Model Context Protocol) server that exposes all APITier utility APIs as too
 
 ## Tools Available
 
+### UK Address & Property
+
 | Tool | Description |
 | --- | --- |
-| `lookup_uk_postcode` | UK postcode → full address list + geocode |
-| `search_uk_address` | Free-text UK address search |
-| `autocomplete_uk_address` | Real-time UK address suggestions |
+| `verify_uk_address` | Verify a UK address against Royal Mail PAF — returns canonical address, UPRN, UDPRN, and per-delivery-point geocode. Accepts optional query fragment to filter to a specific premise. |
+| `lookup_uprn` | Look up a full AddressBase record by UDPRN — returns UPRN, PAF canonical address, lat/lng/easting/northing, and Welsh address where applicable. Use UDPRN from `verify_uk_address`. |
+| `lookup_uk_postcode` | UK postcode → full PAF address list + district, ward, county, country, and geocode |
+
+### UK Business & Compliance
+
+| Tool | Description |
+| --- | --- |
+| `verify_uk_company` | Look up a UK company on Companies House by name or company number — returns registered name, address, status (active/dissolved/dormant), SIC codes, incorporation date, and filing health flags. |
+| `get_company_psc` | Retrieve the Persons with Significant Control (PSC) register for a UK company — returns each PSC's name, nature of control, notified date, and ceased status. Required for UK AML beneficial ownership checks. |
+| `validate_vat` | Validate EU/UK VAT numbers, returns registered business name and address |
+| `validate_sort_code` | Validate a UK bank sort code and optionally a bank account number using the Vocalink modulus 10/11 algorithm. Self-contained — no API key required. |
+
+### Global Utilities
+
+| Tool | Description |
+| --- | --- |
 | `validate_email` | Validate email — syntax, MX, SMTP, disposable check |
 | `validate_phone` | Validate & parse phone numbers (international) |
-| `validate_vat` | Validate EU/UK VAT numbers, returns registered business |
 | `lookup_india_pincode` | Indian PIN code → state/district/town |
 | `generate_barcode` | Generate barcode image (Code128, EAN-13, UPC, etc.) |
 | `generate_qrcode` | Generate QR code image with optional logo + colour |
@@ -45,6 +60,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
       "args": ["@apitier/mcp-server"],
       "env": {
         "APITIER_POSTCODE_KEY":     "key-from-postcode-subscription",
+        "APITIER_LEAD_AGENT_KEY":      "key-from-lead-agent-subscription",
         "APITIER_EMAIL_KEY":        "key-from-email-subscription",
         "APITIER_PHONE_KEY":        "key-from-phone-subscription",
         "APITIER_VAT_KEY":          "key-from-vat-subscription",
@@ -145,20 +161,16 @@ await mcp.close();
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `APITIER_EMAIL_KEY` | One or more required | API key from your Email Validation subscription |
-| `APITIER_PHONE_KEY` | One or more required | API key from your Phone Validation subscription |
-| `APITIER_VAT_KEY` | One or more required | API key from your VAT Validation subscription |
-| `APITIER_POSTCODE_KEY` | One or more required | API key from your UK Postcode subscription |
-| `APITIER_PINCODE_KEY` | One or more required | API key from your India Pincode subscription |
-| `APITIER_BARCODE_KEY` | One or more required | API key from your Barcode/QR Code subscription |
-| `APITIER_CONVERT_DATA_KEY` | One or more required | API key from your Data Conversion subscription |
-| `APITIER_EMAIL_URL` | No | Override email API base URL |
-| `APITIER_PHONE_URL` | No | Override phone API base URL |
-| `APITIER_VAT_URL` | No | Override VAT API base URL |
-| `APITIER_POSTCODE_URL` | No | Override UK postcode API base URL |
-| `APITIER_PINCODE_URL` | No | Override India pincode API base URL |
-| `APITIER_BARCODE_URL` | No | Override barcode API base URL |
-| `APITIER_CONVERT_DATA_URL` | No | Override data conversion API base URL |
+| `APITIER_POSTCODE_KEY` | One or more required | UK Postcode subscription — enables `verify_uk_address`, `lookup_uprn`, `lookup_uk_postcode` |
+| `APITIER_LEAD_AGENT_KEY` | One or more required | Lead Agent subscription — enables `verify_uk_company`, `get_company_psc` |
+| `APITIER_EMAIL_KEY` | One or more required | Email Validation subscription — enables `validate_email` |
+| `APITIER_PHONE_KEY` | One or more required | Phone Validation subscription — enables `validate_phone` |
+| `APITIER_VAT_KEY` | One or more required | VAT Validation subscription — enables `validate_vat` |
+| `APITIER_PINCODE_KEY` | One or more required | India Pincode subscription — enables `lookup_india_pincode` |
+| `APITIER_BARCODE_KEY` | One or more required | Barcode/QR Code subscription — enables `generate_barcode`, `generate_qrcode` |
+| `APITIER_CONVERT_DATA_KEY` | One or more required | Data Conversion subscription — enables `convert_data` |
+
+`validate_sort_code` requires no API key — it is always available.
 
 ---
 
@@ -186,9 +198,23 @@ Set `APITIER_API_KEY` in the inspector's environment variables panel.
 
 Once connected to Claude Desktop, you can say:
 
-- *"Validate this list of emails and tell me which ones are invalid: ..."*
+
+### UK address & property
+
+- *"Verify this address and give me its UPRN: 10 Downing Street, SW1A 2AA"*
 - *"Look up UK postcode EC1A 1BB and fill in the address form"*
+- *"I have a UDPRN — look it up and return the full address record including UPRN"*
+
+### UK business & compliance (KYC)
+
+- *"Verify this UK company on Companies House: Barclays Bank UK PLC"*
+- *"Who are the persons with significant control for company number 00026167?"*
+- *"Validate this UK sort code and account number: 60-16-13 / 31926819"*
+- *"Verify this VAT number before I send the invoice: GB123456789"*
+
+### Global utilities
+
+- *"Validate this list of emails and tell me which ones are invalid: ..."*
 - *"Generate a QR code for our company website with our logo"*
 - *"I have a CSV file — convert it to JSON"*
-- *"Verify this VAT number before I send the invoice: GB123456789"*
 - *"Validate these phone numbers and tell me which country each is from: ..."*

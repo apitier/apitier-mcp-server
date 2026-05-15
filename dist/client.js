@@ -13,6 +13,7 @@ const BASE_URLS = {
     barcode: "https://barcode.apitier.com/v1",
     convertData: "https://data.apitier.com",
     userAgent: "https://useragent.apitier.com/v1",
+    leadAgent: "https://lead.apitier.com/v1/kyc",
 };
 function getConfig() {
     const keys = {
@@ -24,6 +25,7 @@ function getConfig() {
         barcode: process.env.APITIER_BARCODE_KEY,
         convertData: process.env.APITIER_CONVERT_DATA_KEY,
         userAgent: process.env.APITIER_USERAGENT_KEY,
+        leadAgent: process.env.APITIER_LEAD_AGENT_KEY,
     };
     for (const k of Object.keys(keys)) {
         if (!keys[k])

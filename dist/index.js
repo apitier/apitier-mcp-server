@@ -10,7 +10,8 @@ const index_js_2 = require("./tools/index.js");
 // With a portal key the set is resolved dynamically at startup.
 function buildActiveTools(config) {
     const k = config.keys;
-    const tools = [];
+    // Sort code validation is self-contained — always available, no key required.
+    const tools = [index_js_2.validateSortCodeTool];
     if (k.email)
         tools.push(index_js_2.validateEmailTool);
     if (k.phone)
@@ -18,13 +19,15 @@ function buildActiveTools(config) {
     if (k.vat)
         tools.push(index_js_2.validateVatTool);
     if (k.postcode)
-        tools.push(index_js_2.ukPostcodeLookupTool, index_js_2.ukAddressSearchTool, index_js_2.ukAddressAutocompleteTool);
+        tools.push(index_js_2.ukPostcodeLookupTool, index_js_2.verifyUkAddressTool, index_js_2.lookupUprnTool);
     if (k.pincode)
         tools.push(index_js_2.indiaPincodeTool);
     if (k.barcode)
         tools.push(index_js_2.generateBarcodeTool, index_js_2.generateQrCodeTool);
     if (k.convertData)
         tools.push(index_js_2.convertDataTool);
+    if (k.leadAgent)
+        tools.push(index_js_2.verifyUkCompanyTool, index_js_2.getCompanyPscTool);
     return tools;
 }
 async function main() {
@@ -55,12 +58,6 @@ async function main() {
                 case "lookup_uk_postcode":
                     result = await (0, index_js_2.runUkPostcodeLookup)(args, config);
                     break;
-                case "search_uk_address":
-                    result = await (0, index_js_2.runUkAddressSearch)(args, config);
-                    break;
-                case "autocomplete_uk_address":
-                    result = await (0, index_js_2.runUkAddressAutocomplete)(args, config);
-                    break;
                 case "lookup_india_pincode":
                     result = await (0, index_js_2.runIndiaPincodeLookup)(args, config);
                     break;
@@ -72,6 +69,21 @@ async function main() {
                     break;
                 case "convert_data":
                     result = await (0, index_js_2.runConvertData)(args, config);
+                    break;
+                case "validate_sort_code":
+                    result = (0, index_js_2.runValidateSortCode)(args);
+                    break;
+                case "verify_uk_company":
+                    result = await (0, index_js_2.runVerifyUkCompany)(args, config);
+                    break;
+                case "get_company_psc":
+                    result = await (0, index_js_2.runGetCompanyPsc)(args, config);
+                    break;
+                case "verify_uk_address":
+                    result = await (0, index_js_2.runVerifyUkAddress)(args, config);
+                    break;
+                case "lookup_uprn":
+                    result = await (0, index_js_2.runLookupUprn)(args, config);
                     break;
                 default:
                     return {

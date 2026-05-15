@@ -1,6 +1,6 @@
 {
   "name": "@apitier/mcp-server",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "mcpName": "io.github.apitier/mcp-server",
   "description": "MCP server exposing all APITier utility APIs as AI agent tools",
   "main": "dist/index.js",
@@ -29,6 +29,13 @@
     "barcode",
     "qrcode",
     "data-conversion",
+    "uk-company",
+    "companies-house",
+    "kyc",
+    "sort-code",
+    "bank-validation",
+    "uk-address",
+    "uprn",
     "claude",
     "anthropic"
   ],

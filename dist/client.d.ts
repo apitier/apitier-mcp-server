@@ -12,6 +12,7 @@ export interface ServiceKeys {
     barcode?: string;
     convertData?: string;
     userAgent?: string;
+    leadAgent?: string;
 }
 export interface ServiceUrls {
     email: string;
@@ -22,6 +23,7 @@ export interface ServiceUrls {
     barcode: string;
     convertData: string;
     userAgent: string;
+    leadAgent: string;
 }
 export interface ApitierConfig {
     keys: ServiceKeys;

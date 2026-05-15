@@ -8,30 +8,34 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { getConfig, resolvePortalKeys, type ApitierConfig } from "./client.js";
 import {
-  validateEmailTool,    runValidateEmail,
-  validatePhoneTool,    runValidatePhone,
-  validateVatTool,      runValidateVat,
-  ukPostcodeLookupTool,     runUkPostcodeLookup,
-  ukAddressSearchTool,      runUkAddressSearch,
-  ukAddressAutocompleteTool,runUkAddressAutocomplete,
-  indiaPincodeTool,     runIndiaPincodeLookup,
-  generateBarcodeTool,  runGenerateBarcode,
-  generateQrCodeTool,   runGenerateQrCode,
-  convertDataTool,      runConvertData,
+  validateEmailTool,       runValidateEmail,
+  validatePhoneTool,       runValidatePhone,
+  validateVatTool,         runValidateVat,
+  ukPostcodeLookupTool,    runUkPostcodeLookup,
+  indiaPincodeTool,        runIndiaPincodeLookup,
+  generateBarcodeTool,     runGenerateBarcode,
+  generateQrCodeTool,      runGenerateQrCode,
+  convertDataTool,         runConvertData,
+  validateSortCodeTool,    runValidateSortCode,
+  verifyUkCompanyTool,     runVerifyUkCompany,
+  getCompanyPscTool,       runGetCompanyPsc,
+  verifyUkAddressTool,     runVerifyUkAddress,
+  lookupUprnTool,          runLookupUprn,
 } from "./tools/index.js";
 
 // Tools are gated by whether the user has a key for that service.
 // With a portal key the set is resolved dynamically at startup.
 function buildActiveTools(config: ApitierConfig): Tool[] {
   const k = config.keys;
-  const tools: Tool[] = [];
+  // Sort code validation is self-contained — always available, no key required.
+  const tools: Tool[] = [validateSortCodeTool as unknown as Tool];
   if (k.email)       tools.push(validateEmailTool as unknown as Tool);
   if (k.phone)       tools.push(validatePhoneTool as unknown as Tool);
   if (k.vat)         tools.push(validateVatTool as unknown as Tool);
   if (k.postcode)    tools.push(
                        ukPostcodeLookupTool as unknown as Tool,
-                       ukAddressSearchTool as unknown as Tool,
-                       ukAddressAutocompleteTool as unknown as Tool
+                       verifyUkAddressTool  as unknown as Tool,
+                       lookupUprnTool       as unknown as Tool
                      );
   if (k.pincode)     tools.push(indiaPincodeTool as unknown as Tool);
   if (k.barcode)     tools.push(
@@ -39,6 +43,10 @@ function buildActiveTools(config: ApitierConfig): Tool[] {
                        generateQrCodeTool as unknown as Tool
                      );
   if (k.convertData) tools.push(convertDataTool as unknown as Tool);
+  if (k.leadAgent)     tools.push(
+                       verifyUkCompanyTool as unknown as Tool,
+                       getCompanyPscTool   as unknown as Tool
+                     );
   return tools;
 }
 
@@ -79,12 +87,6 @@ async function main() {
         case "lookup_uk_postcode":
           result = await runUkPostcodeLookup(args as { postcode: string }, config);
           break;
-        case "search_uk_address":
-          result = await runUkAddressSearch(args as { address: string }, config);
-          break;
-        case "autocomplete_uk_address":
-          result = await runUkAddressAutocomplete(args as { query: string }, config);
-          break;
         case "lookup_india_pincode":
           result = await runIndiaPincodeLookup(args as { pincode: string }, config);
           break;
@@ -96,6 +98,21 @@ async function main() {
           break;
         case "convert_data":
           result = await runConvertData(args as Parameters<typeof runConvertData>[0], config);
+          break;
+        case "validate_sort_code":
+          result = runValidateSortCode(args as { sortCode: string; accountNumber?: string });
+          break;
+        case "verify_uk_company":
+          result = await runVerifyUkCompany(args as { q: string }, config);
+          break;
+        case "get_company_psc":
+          result = await runGetCompanyPsc(args as { company_number: string }, config);
+          break;
+        case "verify_uk_address":
+          result = await runVerifyUkAddress(args as { postcode: string; query?: string }, config);
+          break;
+        case "lookup_uprn":
+          result = await runLookupUprn(args as { udprn: string }, config);
           break;
         default:
           return {
