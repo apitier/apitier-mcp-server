@@ -1,6 +1,22 @@
 # @apitier/mcp-server
 
-MCP (Model Context Protocol) server that exposes all APITier utility APIs as tools for AI agents.
+MCP (Model Context Protocol) server exposing all APITier utility APIs as tools for AI agents.
+
+Two integration modes:
+
+| Mode | Best for |
+| --- | --- |
+| **Hosted HTTP** — `https://mcp.apitier.com` | Anthropic connector directory, remote agents, server-to-server |
+| **stdio (npx)** — runs locally | Claude Desktop, Cursor, Windsurf, local agents |
+
+Both modes use the same **MCP Key** — one key unlocks all your subscribed services.
+
+**Postman collection:** import the ready-made collection to test all endpoints instantly:
+`https://raw.githubusercontent.com/apitier/apitier-mcp-server/main/postman/APITier%20MCP%20Server.postman_collection.json`
+
+In Postman: **Import → Link → paste URL → set `mcp_api_key` collection variable**.
+
+---
 
 ## Tools Available
 
@@ -8,59 +24,131 @@ MCP (Model Context Protocol) server that exposes all APITier utility APIs as too
 
 | Tool | Description |
 | --- | --- |
-| `verify_uk_address` | Verify a UK address against Royal Mail PAF — returns canonical address, UPRN, UDPRN, and per-delivery-point geocode. Accepts optional query fragment to filter to a specific premise. |
-| `lookup_uprn` | Look up a full AddressBase record by UDPRN — returns UPRN, PAF canonical address, lat/lng/easting/northing, and Welsh address where applicable. Use UDPRN from `verify_uk_address`. |
+| `verify_uk_address` | Verify a UK address against Royal Mail PAF — returns canonical address, UPRN, UDPRN, and per-delivery-point geocode |
+| `lookup_uprn` | Look up a full AddressBase record by UDPRN — returns UPRN, PAF canonical address, coordinates. Use UDPRN from `verify_uk_address` |
 | `lookup_uk_postcode` | UK postcode → full PAF address list + district, ward, county, country, and geocode |
 
 ### UK Business & Compliance
 
 | Tool | Description |
 | --- | --- |
-| `verify_uk_company` | Look up a UK company on Companies House by name or company number — returns registered name, address, status (active/dissolved/dormant), SIC codes, incorporation date, and filing health flags. |
-| `get_company_psc` | Retrieve the Persons with Significant Control (PSC) register for a UK company — returns each PSC's name, nature of control, notified date, and ceased status. Required for UK AML beneficial ownership checks. |
-| `validate_vat` | Validate EU/UK VAT numbers, returns registered business name and address |
-| `validate_sort_code` | Validate a UK bank sort code and optionally a bank account number using the Vocalink modulus 10/11 algorithm. Self-contained — no API key required. |
+| `verify_uk_company` | Look up a UK company on Companies House by name or number — status, address, SIC codes, filing health |
+| `get_company_psc` | Persons with Significant Control register for a UK company — required for AML beneficial ownership checks |
+| `validate_vat` | Validate EU/UK VAT numbers — returns registered business name and address |
+| `validate_sort_code` | Validate a UK sort code and optionally a bank account number (Vocalink modulus check). No API key required. |
 
 ### Global Utilities
 
 | Tool | Description |
 | --- | --- |
-| `validate_email` | Validate email — syntax, MX, SMTP, disposable check |
-| `validate_phone` | Validate & parse phone numbers (international) |
-| `lookup_india_pincode` | Indian PIN code → state/district/town |
-| `generate_barcode` | Generate barcode image (Code128, EAN-13, UPC, etc.) |
-| `generate_qrcode` | Generate QR code image with optional logo + colour |
+| `validate_email` | Validate email — syntax, MX, SMTP reachability, disposable domain check |
+| `validate_phone` | Validate and parse phone numbers (international) |
+| `lookup_india_pincode` | Indian PIN code → state / district / town |
+| `generate_barcode` | Generate barcode image (Code128, EAN-13, UPC, and more) |
+| `generate_qrcode` | Generate QR code image with optional logo and colour |
 | `convert_data` | Convert between CSV, JSON, XML, YAML |
 
-## Setup
+---
 
-### 1. Get your API keys
+## Quick Start
 
-Sign up at [apitier.com](https://apitier.com). Each APITier service has its own subscription and API key. You only need keys for the services you want to use — tools without a configured key are automatically omitted from the MCP tool list.
+### 1. Get your MCP Key
 
-### 2. Install
+Sign up at [apitier.com](https://apitier.com) → **Account → AI & MCP → Generate MCP Key**.
+
+Your MCP Key (`mcp_...`) automatically unlocks the tools for every APITier service you have subscribed to. No per-service configuration needed.
+
+---
+
+## Hosted HTTP Endpoint
+
+`POST https://mcp.apitier.com/mcp?x-api-key=YOUR_MCP_KEY`
+
+Pass your MCP Key as the `x-api-key` query parameter. The endpoint resolves your subscribed services and returns only the tools available to you.
+
+**Required headers:**
+
+```http
+Content-Type: application/json
+Accept: application/json, text/event-stream
+```
+
+**Test with curl:**
 
 ```bash
-npm install -g @apitier/mcp-server
-# or run directly without installing:
-npx @apitier/mcp-server
+curl -s -X POST 'https://mcp.apitier.com/mcp?x-api-key=YOUR_MCP_KEY' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | jq .
+```
+
+**Call a tool:**
+```bash
+curl -s -X POST 'https://mcp.apitier.com/mcp?x-api-key=YOUR_MCP_KEY' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "verify_uk_company",
+      "arguments": { "q": "03977902" }
+    }
+  }' | jq .
+```
+
+**Health check:**
+
+```bash
+curl https://mcp.apitier.com/health
+```
+
+### Use with any HTTP MCP client
+
+```json
+{
+  "mcpServers": {
+    "apitier": {
+      "url": "https://mcp.apitier.com/mcp?x-api-key=YOUR_MCP_KEY"
+    }
+  }
+}
 ```
 
 ---
 
-## Claude Desktop
+## Claude Desktop (stdio)
 
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+
+**With MCP Key (recommended — single key, all subscribed tools):**
 
 ```json
 {
   "mcpServers": {
     "apitier": {
       "command": "npx",
-      "args": ["@apitier/mcp-server"],
+      "args": ["-y", "@apitier/mcp-server"],
+      "env": {
+        "APITIER_MCP_KEY": "mcp_your-key-here"
+      }
+    }
+  }
+}
+```
+
+**With individual service keys (if you prefer explicit control):**
+
+```json
+{
+  "mcpServers": {
+    "apitier": {
+      "command": "npx",
+      "args": ["-y", "@apitier/mcp-server"],
       "env": {
         "APITIER_POSTCODE_KEY":     "key-from-postcode-subscription",
-        "APITIER_LEAD_AGENT_KEY":      "key-from-lead-agent-subscription",
+        "APITIER_LEAD_AGENT_KEY":   "key-from-lead-agent-subscription",
         "APITIER_EMAIL_KEY":        "key-from-email-subscription",
         "APITIER_PHONE_KEY":        "key-from-phone-subscription",
         "APITIER_VAT_KEY":          "key-from-vat-subscription",
@@ -72,11 +160,11 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 }
 ```
 
-Only set keys for services you have subscribed to. Restart Claude Desktop — you will see only the tools for your active subscriptions.
+Restart Claude Desktop after saving. Only tools for your active subscriptions will appear.
 
 ---
 
-## Cursor / Windsurf / other MCP clients
+## Cursor / Windsurf / VS Code
 
 ```json
 {
@@ -84,9 +172,9 @@ Only set keys for services you have subscribed to. Restart Claude Desktop — yo
     "servers": {
       "apitier": {
         "command": "npx",
-        "args": ["@apitier/mcp-server"],
+        "args": ["-y", "@apitier/mcp-server"],
         "env": {
-          "APITIER_API_KEY": "your-api-key-here"
+          "APITIER_MCP_KEY": "mcp_your-key-here"
         }
       }
     }
@@ -98,6 +186,8 @@ Only set keys for services you have subscribed to. Restart Claude Desktop — yo
 
 ## LangChain (Python)
 
+**stdio:**
+
 ```python
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -108,8 +198,8 @@ from langchain_anthropic import ChatAnthropic
 async def main():
     server_params = StdioServerParameters(
         command="npx",
-        args=["@apitier/mcp-server"],
-        env={"APITIER_API_KEY": "your-api-key"},
+        args=["-y", "@apitier/mcp-server"],
+        env={"APITIER_MCP_KEY": "mcp_your-key-here"},
     )
 
     async with stdio_client(server_params) as (read, write):
@@ -126,9 +216,27 @@ async def main():
             print(result["messages"][-1].content)
 ```
 
+**HTTP endpoint:**
+
+```python
+from mcp import ClientSession
+from mcp.client.streamable_http import streamablehttp_client
+
+async def main():
+    async with streamablehttp_client(
+        "https://mcp.apitier.com/mcp?x-api-key=mcp_your-key-here"
+    ) as (read, write, _):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            tools = await load_mcp_tools(session)
+            # use tools with your agent...
+```
+
 ---
 
 ## Vercel AI SDK (TypeScript)
+
+**stdio:**
 
 ```typescript
 import { experimental_createMCPClient as createMCPClient } from "ai";
@@ -139,8 +247,8 @@ import { generateText } from "ai";
 const mcp = await createMCPClient({
   transport: new StdioMCPTransport({
     command: "npx",
-    args: ["@apitier/mcp-server"],
-    env: { APITIER_API_KEY: process.env.APITIER_API_KEY! },
+    args: ["-y", "@apitier/mcp-server"],
+    env: { APITIER_MCP_KEY: process.env.APITIER_MCP_KEY! },
   }),
 });
 
@@ -149,28 +257,46 @@ const tools = await mcp.tools();
 const { text } = await generateText({
   model: anthropic("claude-sonnet-4-6"),
   tools,
-  prompt: "Validate the email user@example.com and generate a QR code for https://apitier.com",
+  prompt: "Verify this UK company: Google UK Limited",
 });
 
 await mcp.close();
+```
+
+**HTTP endpoint:**
+
+```typescript
+import { experimental_createMCPClient as createMCPClient } from "ai";
+
+const mcp = await createMCPClient({
+  transport: {
+    type: "sse",
+    url: `https://mcp.apitier.com/mcp?x-api-key=${process.env.APITIER_MCP_KEY}`,
+  },
+});
+
+const tools = await mcp.tools();
 ```
 
 ---
 
 ## Environment Variables
 
-| Variable | Required | Description |
-| --- | --- | --- |
-| `APITIER_POSTCODE_KEY` | One or more required | UK Postcode subscription — enables `verify_uk_address`, `lookup_uprn`, `lookup_uk_postcode` |
-| `APITIER_LEAD_AGENT_KEY` | One or more required | Lead Agent subscription — enables `verify_uk_company`, `get_company_psc` |
-| `APITIER_EMAIL_KEY` | One or more required | Email Validation subscription — enables `validate_email` |
-| `APITIER_PHONE_KEY` | One or more required | Phone Validation subscription — enables `validate_phone` |
-| `APITIER_VAT_KEY` | One or more required | VAT Validation subscription — enables `validate_vat` |
-| `APITIER_PINCODE_KEY` | One or more required | India Pincode subscription — enables `lookup_india_pincode` |
-| `APITIER_BARCODE_KEY` | One or more required | Barcode/QR Code subscription — enables `generate_barcode`, `generate_qrcode` |
-| `APITIER_CONVERT_DATA_KEY` | One or more required | Data Conversion subscription — enables `convert_data` |
+| Variable | Description |
+| --- | --- |
+| `APITIER_MCP_KEY` | **Recommended.** Single MCP Key from account page — resolves all subscribed service keys automatically |
+| `APITIER_POSTCODE_KEY` | UK Postcode subscription — enables `verify_uk_address`, `lookup_uprn`, `lookup_uk_postcode` |
+| `APITIER_LEAD_AGENT_KEY` | Lead Agent subscription — enables `verify_uk_company`, `get_company_psc` |
+| `APITIER_EMAIL_KEY` | Email Validation subscription — enables `validate_email` |
+| `APITIER_PHONE_KEY` | Phone Validation subscription — enables `validate_phone` |
+| `APITIER_VAT_KEY` | VAT Validation subscription — enables `validate_vat` |
+| `APITIER_PINCODE_KEY` | India Pincode subscription — enables `lookup_india_pincode` |
+| `APITIER_BARCODE_KEY` | Barcode/QR Code subscription — enables `generate_barcode`, `generate_qrcode` |
+| `APITIER_CONVERT_DATA_KEY` | Data Conversion subscription — enables `convert_data` |
 
 `validate_sort_code` requires no API key — it is always available.
+
+Individual service keys take precedence over `APITIER_MCP_KEY` if both are set.
 
 ---
 
@@ -181,40 +307,38 @@ git clone https://github.com/apitier/apitier-mcp-server.git
 cd apitier-mcp-server
 npm install
 npm run build
-APITIER_API_KEY=your-key node dist/index.js
+APITIER_MCP_KEY=mcp_your-key node dist/index.js
 ```
 
-To test with the MCP inspector:
+Test with the MCP Inspector:
 
 ```bash
 npx @modelcontextprotocol/inspector npx @apitier/mcp-server
 ```
 
-Set `APITIER_API_KEY` in the inspector's environment variables panel.
+Set `APITIER_MCP_KEY` in the inspector's environment variables panel.
 
 ---
 
 ## Example Agent Prompts
 
-Once connected to Claude Desktop, you can say:
-
+Once connected to Claude Desktop or any MCP-compatible agent:
 
 ### UK address & property
 
 - *"Verify this address and give me its UPRN: 10 Downing Street, SW1A 2AA"*
 - *"Look up UK postcode EC1A 1BB and fill in the address form"*
-- *"I have a UDPRN — look it up and return the full address record including UPRN"*
 
-### UK business & compliance (KYC)
+### UK business & compliance
 
 - *"Verify this UK company on Companies House: Barclays Bank UK PLC"*
 - *"Who are the persons with significant control for company number 00026167?"*
 - *"Validate this UK sort code and account number: 60-16-13 / 31926819"*
-- *"Verify this VAT number before I send the invoice: GB123456789"*
+- *"Verify this VAT number before I send the invoice: GB927065390"*
 
 ### Global utilities
 
-- *"Validate this list of emails and tell me which ones are invalid: ..."*
-- *"Generate a QR code for our company website with our logo"*
-- *"I have a CSV file — convert it to JSON"*
-- *"Validate these phone numbers and tell me which country each is from: ..."*
+- *"Validate this list of emails and tell me which ones are invalid"*
+- *"Generate a QR code for [apitier.com](https://apitier.com)"*
+- *"Convert this CSV to JSON"*
+- *"Validate these phone numbers and tell me which country each is from"*

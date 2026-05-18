@@ -44,7 +44,7 @@ const BASE_URLS: ServiceUrls = {
   barcode:     "https://barcode.apitier.com/v1",
   convertData: "https://data.apitier.com",
   userAgent:   "https://useragent.apitier.com/v1",
-  leadAgent:     "https://lead.apitier.com/v1/kyc",
+  leadAgent:     "https://lead.apitier.com/v1",
 };
 
 export function getConfig(): ApitierConfig {
