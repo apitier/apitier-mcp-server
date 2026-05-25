@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runLookupUprn = exports.lookupUprnTool = exports.runVerifyUkAddress = exports.verifyUkAddressTool = exports.runGetCompanyPsc = exports.getCompanyPscTool = exports.runVerifyUkCompany = exports.verifyUkCompanyTool = exports.runValidateSortCode = exports.validateSortCodeTool = exports.runConvertData = exports.convertDataTool = exports.runGenerateQrCode = exports.runGenerateBarcode = exports.generateQrCodeTool = exports.generateBarcodeTool = exports.runIndiaPincodeLookup = exports.indiaPincodeTool = exports.runUkPostcodeLookup = exports.ukPostcodeLookupTool = exports.runValidateVat = exports.validateVatTool = exports.runValidatePhone = exports.validatePhoneTool = exports.runValidateEmail = exports.validateEmailTool = void 0;
+exports.runKycOnboard = exports.kycOnboardTool = exports.runLookupUprn = exports.lookupUprnTool = exports.runVerifyUkAddress = exports.verifyUkAddressTool = exports.runGetCompanyPsc = exports.getCompanyPscTool = exports.runVerifyUkCompany = exports.verifyUkCompanyTool = exports.runValidateSortCode = exports.validateSortCodeTool = exports.runConvertData = exports.convertDataTool = exports.runGenerateQrCode = exports.runGenerateBarcode = exports.generateQrCodeTool = exports.generateBarcodeTool = exports.runIndiaPincodeLookup = exports.indiaPincodeTool = exports.runUkPostcodeLookup = exports.ukPostcodeLookupTool = exports.runValidateVat = exports.validateVatTool = exports.runValidatePhone = exports.validatePhoneTool = exports.runValidateEmail = exports.validateEmailTool = void 0;
 var validate_email_js_1 = require("./validate-email.js");
 Object.defineProperty(exports, "validateEmailTool", { enumerable: true, get: function () { return validate_email_js_1.validateEmailTool; } });
 Object.defineProperty(exports, "runValidateEmail", { enumerable: true, get: function () { return validate_email_js_1.runValidateEmail; } });
@@ -37,5 +37,8 @@ Object.defineProperty(exports, "verifyUkAddressTool", { enumerable: true, get: f
 Object.defineProperty(exports, "runVerifyUkAddress", { enumerable: true, get: function () { return uk_address_uprn_js_1.runVerifyUkAddress; } });
 Object.defineProperty(exports, "lookupUprnTool", { enumerable: true, get: function () { return uk_address_uprn_js_1.lookupUprnTool; } });
 Object.defineProperty(exports, "runLookupUprn", { enumerable: true, get: function () { return uk_address_uprn_js_1.runLookupUprn; } });
+var kyc_onboard_js_1 = require("./kyc-onboard.js");
+Object.defineProperty(exports, "kycOnboardTool", { enumerable: true, get: function () { return kyc_onboard_js_1.kycOnboardTool; } });
+Object.defineProperty(exports, "runKycOnboard", { enumerable: true, get: function () { return kyc_onboard_js_1.runKycOnboard; } });
 // geolocation.ts is stashed locally — not yet released
 //# sourceMappingURL=index.js.map

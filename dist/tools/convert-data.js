@@ -6,6 +6,8 @@ const client_js_1 = require("../client.js");
 const DATA_FORMATS = ["csv", "json", "xml", "yaml"];
 exports.convertDataTool = {
     name: "convert_data",
+    geography: ["GLOBAL"],
+    domain: "utilities",
     description: "Convert data between formats: CSV, JSON, XML, and YAML. " +
         "Pass the source data as a string and specify input and output formats. " +
         "Use in ETL pipelines, data processing agents, API integration workflows, and document automation.",

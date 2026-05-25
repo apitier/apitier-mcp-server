@@ -1,6 +1,8 @@
 import { type ApitierConfig } from "../client.js";
 export declare const verifyUkAddressTool: {
     readonly name: "verify_uk_address";
+    readonly geography: readonly ["GB"];
+    readonly domain: "address";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";
@@ -19,6 +21,8 @@ export declare const verifyUkAddressTool: {
 };
 export declare const lookupUprnTool: {
     readonly name: "lookup_uprn";
+    readonly geography: readonly ["GB"];
+    readonly domain: "address";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

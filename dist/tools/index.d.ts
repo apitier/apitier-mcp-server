@@ -8,4 +8,5 @@ export { convertDataTool, runConvertData } from "./convert-data.js";
 export { validateSortCodeTool, runValidateSortCode } from "./uk-sortcode.js";
 export { verifyUkCompanyTool, runVerifyUkCompany, getCompanyPscTool, runGetCompanyPsc, } from "./uk-company.js";
 export { verifyUkAddressTool, runVerifyUkAddress, lookupUprnTool, runLookupUprn, } from "./uk-address-uprn.js";
+export { kycOnboardTool, runKycOnboard } from "./kyc-onboard.js";
 //# sourceMappingURL=index.d.ts.map

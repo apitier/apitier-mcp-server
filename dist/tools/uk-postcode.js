@@ -5,6 +5,8 @@ exports.runUkPostcodeLookup = runUkPostcodeLookup;
 const client_js_1 = require("../client.js");
 exports.ukPostcodeLookupTool = {
     name: "lookup_uk_postcode",
+    geography: ["GB"],
+    domain: "address",
     description: "Look up a UK postcode to get the full address list, district, ward, county, country, and GPS coordinates. " +
         "Use for address auto-fill, delivery routing, or validating user-entered UK addresses.",
     inputSchema: {

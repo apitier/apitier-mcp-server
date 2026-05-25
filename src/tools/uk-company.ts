@@ -4,6 +4,8 @@ import { apitierGet, type ApitierConfig } from "../client.js";
 
 export const verifyUkCompanyTool = {
   name: "verify_uk_company",
+  geography: ["GB"] as const,
+  domain: "kyc" as const,
   description:
     "Look up a UK company on Companies House by name or company number. " +
     "Returns the registered name, address, incorporation date, SIC codes, " +
@@ -28,6 +30,8 @@ export const verifyUkCompanyTool = {
 
 export const getCompanyPscTool = {
   name: "get_company_psc",
+  geography: ["GB"] as const,
+  domain: "kyc" as const,
   description:
     "Retrieve the Persons with Significant Control (PSC) register for a UK company. " +
     "Returns each PSC's name, nature of control (e.g. 75–100% share ownership), " +

@@ -5,6 +5,8 @@ type DataFormat = typeof DATA_FORMATS[number];
 
 export const convertDataTool = {
   name: "convert_data",
+  geography: ["GLOBAL"] as const,
+  domain: "utilities" as const,
   description:
     "Convert data between formats: CSV, JSON, XML, and YAML. " +
     "Pass the source data as a string and specify input and output formats. " +

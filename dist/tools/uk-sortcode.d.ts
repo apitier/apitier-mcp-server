@@ -1,5 +1,7 @@
 export declare const validateSortCodeTool: {
     readonly name: "validate_sort_code";
+    readonly geography: readonly ["GB"];
+    readonly domain: "finance";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

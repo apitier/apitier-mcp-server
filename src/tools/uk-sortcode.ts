@@ -6,6 +6,8 @@
 
 export const validateSortCodeTool = {
   name: "validate_sort_code",
+  geography: ["GB"] as const,
+  domain: "finance" as const,
   description:
     "Validate a UK bank sort code and, optionally, a bank account number. " +
     "Checks format (6 digits, XX-XX-XX notation supported) and runs the " +

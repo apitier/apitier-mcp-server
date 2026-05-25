@@ -5,6 +5,8 @@ exports.runValidatePhone = runValidatePhone;
 const client_js_1 = require("../client.js");
 exports.validatePhoneTool = {
     name: "validate_phone",
+    geography: ["GLOBAL"],
+    domain: "identity",
     description: "Validate and parse a phone number. Returns whether it is valid, the country, carrier, " +
         "line type (mobile/landline), and international format. Accepts numbers in any international format.",
     inputSchema: {

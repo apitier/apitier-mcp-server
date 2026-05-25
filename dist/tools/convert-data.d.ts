@@ -3,6 +3,8 @@ declare const DATA_FORMATS: readonly ["csv", "json", "xml", "yaml"];
 type DataFormat = typeof DATA_FORMATS[number];
 export declare const convertDataTool: {
     readonly name: "convert_data";
+    readonly geography: readonly ["GLOBAL"];
+    readonly domain: "utilities";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

@@ -1,6 +1,8 @@
 import { type ApitierConfig } from "../client.js";
 export declare const ukPostcodeLookupTool: {
     readonly name: "lookup_uk_postcode";
+    readonly geography: readonly ["GB"];
+    readonly domain: "address";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

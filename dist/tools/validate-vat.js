@@ -5,6 +5,8 @@ exports.runValidateVat = runValidateVat;
 const client_js_1 = require("../client.js");
 exports.validateVatTool = {
     name: "validate_vat",
+    geography: ["GB", "EU"],
+    domain: "compliance",
     description: "Validate a VAT (Value Added Tax) registration number. " +
         "Checks whether the VAT number is registered and returns the registered business name and address. " +
         "Essential for B2B invoicing agents and checkout flows requiring VAT verification.",

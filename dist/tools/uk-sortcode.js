@@ -9,6 +9,8 @@ exports.validateSortCodeTool = void 0;
 exports.runValidateSortCode = runValidateSortCode;
 exports.validateSortCodeTool = {
     name: "validate_sort_code",
+    geography: ["GB"],
+    domain: "finance",
     description: "Validate a UK bank sort code and, optionally, a bank account number. " +
         "Checks format (6 digits, XX-XX-XX notation supported) and runs the " +
         "standard Vocalink modulus 10/11 check when an account number is supplied. " +

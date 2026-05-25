@@ -7,6 +7,8 @@ const client_js_1 = require("../client.js");
 // ── verify_uk_company ─────────────────────────────────────────────────────────
 exports.verifyUkCompanyTool = {
     name: "verify_uk_company",
+    geography: ["GB"],
+    domain: "kyc",
     description: "Look up a UK company on Companies House by name or company number. " +
         "Returns the registered name, address, incorporation date, SIC codes, " +
         "company status (active/dissolved/dormant/liquidation), and filing health flags. " +
@@ -27,6 +29,8 @@ exports.verifyUkCompanyTool = {
 // ── get_company_psc ───────────────────────────────────────────────────────────
 exports.getCompanyPscTool = {
     name: "get_company_psc",
+    geography: ["GB"],
+    domain: "kyc",
     description: "Retrieve the Persons with Significant Control (PSC) register for a UK company. " +
         "Returns each PSC's name, nature of control (e.g. 75–100% share ownership), " +
         "notified date, nationality, and whether they have ceased. " +

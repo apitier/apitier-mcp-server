@@ -13,6 +13,8 @@ const BARCODE_FORMATS = [
 ];
 exports.generateBarcodeTool = {
     name: "generate_barcode",
+    geography: ["GLOBAL"],
+    domain: "utilities",
     description: "Generate a barcode image from text or numeric data. Returns a base64-encoded PNG image. " +
         "Supports all major barcode formats: Code128, EAN-13, EAN-8, UPC, Code39, ITF-14, and more. " +
         "Use for inventory management, product labelling, logistics, and retail automation agents.",
@@ -54,6 +56,8 @@ exports.generateBarcodeTool = {
 };
 exports.generateQrCodeTool = {
     name: "generate_qrcode",
+    geography: ["GLOBAL"],
+    domain: "utilities",
     description: "Generate a QR code image from any text or URL. Returns a base64-encoded PNG image. " +
         "Supports custom colours, embedded logo, and title. " +
         "Use for marketing campaigns, payment links, product traceability, and contactless sharing agents.",

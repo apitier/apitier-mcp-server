@@ -5,6 +5,8 @@ exports.runValidateEmail = runValidateEmail;
 const client_js_1 = require("../client.js");
 exports.validateEmailTool = {
     name: "validate_email",
+    geography: ["GLOBAL"],
+    domain: "identity",
     description: "Validate an email address. Checks syntax, MX records, SMTP reachability, typos, and disposable domains. " +
         "Use before storing any user-provided email address. Returns isValid flag plus per-check breakdown.",
     inputSchema: {

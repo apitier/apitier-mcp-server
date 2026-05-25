@@ -3,6 +3,8 @@ declare const BARCODE_FORMATS: readonly ["code128", "code128a", "code128b", "cod
 type BarcodeFormat = typeof BARCODE_FORMATS[number];
 export declare const generateBarcodeTool: {
     readonly name: "generate_barcode";
+    readonly geography: readonly ["GLOBAL"];
+    readonly domain: "utilities";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";
@@ -42,6 +44,8 @@ export declare const generateBarcodeTool: {
 };
 export declare const generateQrCodeTool: {
     readonly name: "generate_qrcode";
+    readonly geography: readonly ["GLOBAL"];
+    readonly domain: "utilities";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

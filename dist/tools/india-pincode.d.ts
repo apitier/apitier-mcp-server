@@ -1,6 +1,8 @@
 import { type ApitierConfig } from "../client.js";
 export declare const indiaPincodeTool: {
     readonly name: "lookup_india_pincode";
+    readonly geography: readonly ["IN"];
+    readonly domain: "address";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

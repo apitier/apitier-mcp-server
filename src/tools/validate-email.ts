@@ -2,6 +2,8 @@ import { apitierGet, type ApitierConfig } from "../client.js";
 
 export const validateEmailTool = {
   name: "validate_email",
+  geography: ["GLOBAL"] as const,
+  domain: "identity" as const,
   description:
     "Validate an email address. Checks syntax, MX records, SMTP reachability, typos, and disposable domains. " +
     "Use before storing any user-provided email address. Returns isValid flag plus per-check breakdown.",

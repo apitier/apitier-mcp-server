@@ -19,4 +19,5 @@ export {
   verifyUkAddressTool, runVerifyUkAddress,
   lookupUprnTool,      runLookupUprn,
 } from "./uk-address-uprn.js";
+export { kycOnboardTool, runKycOnboard } from "./kyc-onboard.js";
 // geolocation.ts is stashed locally — not yet released

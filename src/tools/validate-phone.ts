@@ -2,6 +2,8 @@ import { apitierGet, type ApitierConfig } from "../client.js";
 
 export const validatePhoneTool = {
   name: "validate_phone",
+  geography: ["GLOBAL"] as const,
+  domain: "identity" as const,
   description:
     "Validate and parse a phone number. Returns whether it is valid, the country, carrier, " +
     "line type (mobile/landline), and international format. Accepts numbers in any international format.",

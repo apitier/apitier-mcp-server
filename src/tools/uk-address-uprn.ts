@@ -4,6 +4,8 @@ import { apitierGet, type ApitierConfig } from "../client.js";
 
 export const verifyUkAddressTool = {
   name: "verify_uk_address",
+  geography: ["GB"] as const,
+  domain: "address" as const,
   description:
     "Verify a UK address against the Royal Mail PAF (Postal Address File). " +
     "Returns the canonical PAF address, UPRN (Unique Property Reference Number), " +
@@ -38,6 +40,8 @@ export const verifyUkAddressTool = {
 
 export const lookupUprnTool = {
   name: "lookup_uprn",
+  geography: ["GB"] as const,
+  domain: "address" as const,
   description:
     "Look up a UK address by UDPRN (Unique Delivery Point Reference Number) " +
     "and return the full AddressBase record including UPRN, PAF canonical " +

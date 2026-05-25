@@ -2,6 +2,8 @@ import { apitierGet, type ApitierConfig } from "../client.js";
 
 export const indiaPincodeTool = {
   name: "lookup_india_pincode",
+  geography: ["IN"] as const,
+  domain: "address" as const,
   description:
     "Look up an Indian PIN code (postal index number) to get the state, district, sub-district, " +
     "and town/village information. Use for Indian e-commerce checkout, address validation, and delivery routing.",

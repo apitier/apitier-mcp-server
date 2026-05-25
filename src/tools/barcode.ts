@@ -12,6 +12,8 @@ type BarcodeFormat = typeof BARCODE_FORMATS[number];
 
 export const generateBarcodeTool = {
   name: "generate_barcode",
+  geography: ["GLOBAL"] as const,
+  domain: "utilities" as const,
   description:
     "Generate a barcode image from text or numeric data. Returns a base64-encoded PNG image. " +
     "Supports all major barcode formats: Code128, EAN-13, EAN-8, UPC, Code39, ITF-14, and more. " +
@@ -55,6 +57,8 @@ export const generateBarcodeTool = {
 
 export const generateQrCodeTool = {
   name: "generate_qrcode",
+  geography: ["GLOBAL"] as const,
+  domain: "utilities" as const,
   description:
     "Generate a QR code image from any text or URL. Returns a base64-encoded PNG image. " +
     "Supports custom colours, embedded logo, and title. " +

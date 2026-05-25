@@ -1,6 +1,8 @@
 import { type ApitierConfig } from "../client.js";
 export declare const validateVatTool: {
     readonly name: "validate_vat";
+    readonly geography: readonly ["GB", "EU"];
+    readonly domain: "compliance";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

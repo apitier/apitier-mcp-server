@@ -1,6 +1,8 @@
 import { type ApitierConfig } from "../client.js";
 export declare const validateEmailTool: {
     readonly name: "validate_email";
+    readonly geography: readonly ["GLOBAL"];
+    readonly domain: "identity";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

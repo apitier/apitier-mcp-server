@@ -1,6 +1,8 @@
 import { type ApitierConfig } from "../client.js";
 export declare const verifyUkCompanyTool: {
     readonly name: "verify_uk_company";
+    readonly geography: readonly ["GB"];
+    readonly domain: "kyc";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";
@@ -15,6 +17,8 @@ export declare const verifyUkCompanyTool: {
 };
 export declare const getCompanyPscTool: {
     readonly name: "get_company_psc";
+    readonly geography: readonly ["GB"];
+    readonly domain: "kyc";
     readonly description: string;
     readonly inputSchema: {
         readonly type: "object";

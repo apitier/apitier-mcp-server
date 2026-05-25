@@ -2,6 +2,8 @@ import { apitierGet, type ApitierConfig } from "../client.js";
 
 export const validateVatTool = {
   name: "validate_vat",
+  geography: ["GB", "EU"] as const,
+  domain: "compliance" as const,
   description:
     "Validate a VAT (Value Added Tax) registration number. " +
     "Checks whether the VAT number is registered and returns the registered business name and address. " +

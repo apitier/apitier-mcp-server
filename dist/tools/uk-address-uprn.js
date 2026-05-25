@@ -7,6 +7,8 @@ const client_js_1 = require("../client.js");
 // ── verify_uk_address ─────────────────────────────────────────────────────────
 exports.verifyUkAddressTool = {
     name: "verify_uk_address",
+    geography: ["GB"],
+    domain: "address",
     description: "Verify a UK address against the Royal Mail PAF (Postal Address File). " +
         "Returns the canonical PAF address, UPRN (Unique Property Reference Number), " +
         "UDPRN, per-delivery-point geocode, and postcode-level admin data " +
@@ -36,6 +38,8 @@ exports.verifyUkAddressTool = {
 // ── lookup_uprn ───────────────────────────────────────────────────────────────
 exports.lookupUprnTool = {
     name: "lookup_uprn",
+    geography: ["GB"],
+    domain: "address",
     description: "Look up a UK address by UDPRN (Unique Delivery Point Reference Number) " +
         "and return the full AddressBase record including UPRN, PAF canonical " +
         "address, per-delivery-point geocode (latitude/longitude/easting/northing), " +
